@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>Drag Me</title>
+  <script>
+    prevPos=[screenX,screenY],prevVel=[0,0],prevTimestamp=0,start=[0,0],dragging=!1,prevPrevPos=[...prevPos],onpointerdown=e=>{dragging=!0,start=[e.screenX,e.screenY],prevPrevPos=[screenX,screenY],prevPos=[screenX,screenY],prevVel=[0,0]},onmousemove=e=>{dragging&&(offset=[e.screenX-start[0],e.screenY-start[1]],prevPrevPos=prevPos,prevPos=[screenX,screenY],start=[e.screenX,e.screenY],moveBy(offset[0],offset[1]))},onpointerup=e=>{dragging=!1,prevPos=prevPrevPos},function e(s){if(dragging)return void requestAnimationFrame(e);size=[outerWidth,outerHeight],pos=[screenX,screenY],vel=[...prevVel];let o=pos[0]-prevPos[0],r=pos[1]-prevPos[1];Math.abs(o)>=1&&(vel[0]=o),Math.abs(r)>=1&&(vel[1]=r),collidedBottom=pos[1]+size[1]+vel[1]>screen.availHeight,collidedBottom&&(vel[0]-=Math.sign(vel[0])),Math.abs(vel[1])<23?!collidedBottom&&(vel[1]+=1):vel[1]*=.943,Math.abs(vel[1])<1&&(vel[1]=0),pos[0]+=vel[0],pos[1]+=vel[1],collidedBottom=pos[1]+size[1]>screen.availHeight,collidedBottom&&Math.abs(vel[1])<1&&(vel[1]=0),pos=pos.map(Math.ceil),moveTo(pos[0],pos[1]),prevPos=[screenX,screenY],prevVel=[...vel],requestAnimationFrame(e)}()
+  </script>
+  <style>
+    html {
+      display: grid;
+      place-items: center;
+      place-content: center;
+      user-select: none;
+      touch-action: none;
+      font-family: system-ui;
+      height: 86%;
+      cursor: grab;
+    }
+    :active {
+      cursor: grabbing;
+    }
+  </style>
+  <h1>Drag Me</h1>
+</html>
